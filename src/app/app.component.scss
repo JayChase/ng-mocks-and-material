@@ -1,0 +1,16 @@
+@use "@angular/material" as mat;
+
+@mixin app-theme($theme) {
+  app-root {
+    .toolbar {
+      background-color: mat.get-theme-color($theme, primary, 50);
+      color: mat.get-theme-color($theme, on-primary);
+      &__title {
+        flex: 1 1 100%;
+      }
+    }
+    mat-icon {
+      color: mat.get-theme-color($theme, on-primary);
+    }
+  }
+}
