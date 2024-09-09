@@ -1,29 +1,35 @@
-import { TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+  let fixture: MockedComponentFixture<AppComponent>;
+
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
+    return MockBuilder(AppComponent)
+      .beforeCompileComponents((testBed) => {
+        testBed.overrideComponent(AppComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default, // onPush doesn't work well with detectChanges()
+            providers: [], // clear out the component level providers so the mocks get used
+          },
+        });
+      })
+      .keep(CommonModule)
+      .keep(NoopAnimationsModule)
+      .keep(MatButtonModule);
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have the 'ng-mocks-and-material' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('ng-mocks-and-material');
+  beforeEach(async () => {
+    fixture = MockRender(AppComponent);
   });
 
   it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, ng-mocks-and-material');
+    fixture.nativeElement
+      .querySelector('.app__title')
+      ?.textContent.toContain('Test Component');
   });
 });
