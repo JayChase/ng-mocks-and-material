@@ -1,6 +1,5 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonHarness } from '@angular/material/button/testing';
@@ -9,7 +8,6 @@ import {
   MatSnackBarRef,
   TextOnlySnackBar,
 } from '@angular/material/snack-bar';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
 import { AppComponent } from './app.component';
 
@@ -18,6 +16,7 @@ describe('AppComponent', () => {
   let loader: HarnessLoader;
 
   beforeEach(async () => {
+    // keep all of the Material modules used by the component AND any child components
     return MockBuilder(AppComponent)
       .beforeCompileComponents((testBed) => {
         testBed.overrideComponent(AppComponent, {
@@ -27,8 +26,6 @@ describe('AppComponent', () => {
           },
         });
       })
-      .keep(CommonModule)
-      .keep(NoopAnimationsModule)
       .keep(MatButtonModule);
   });
 
