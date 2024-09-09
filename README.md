@@ -4,8 +4,6 @@ How to get tests on standalone components working with ngMocks and Angular Mater
 
 ## Aim
 
-
-
 ## Challenge
 
 ## Solution
