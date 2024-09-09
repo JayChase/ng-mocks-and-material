@@ -57,6 +57,9 @@ describe('AppComponent', () => {
       spyOn(matSnackBar, 'open').and.returnValue(mockMatSnackBarRef);
     });
 
-    it('should show a snackbar', () => {});
+    it('should show a snackbar', async () => {
+      await likeHarness.click();
+      expect(matSnackBar.open).toHaveBeenCalled();
+    });
   });
 });
