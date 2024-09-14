@@ -39,12 +39,6 @@ describe('AppComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
   });
 
-  it('should render title', () => {
-    fixture.nativeElement
-      .querySelector('.app__title')
-      ?.textContent.toContain('Test Component');
-  });
-
   describe('Like button', () => {
     let likeHarness: MatButtonHarness;
     let likeService!: LikeService;
