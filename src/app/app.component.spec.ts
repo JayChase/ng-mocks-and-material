@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonHarness } from '@angular/material/button/testing';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
 import { AppComponent } from './app.component';
@@ -27,7 +26,6 @@ describe('AppComponent', () => {
       .keep(CommonModule)
       .keep(NoopAnimationsModule)
       .keep(MatButtonModule)
-      .keep(MatSnackBarModule)
       .mock(LikeService, {
         like: () => null,
       });
