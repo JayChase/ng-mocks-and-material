@@ -62,6 +62,34 @@ The tricky part here is that the **MatSnackBarModule** has to be kept as it used
 - Add a [test.ts](./src/test.ts) config to always exclude any Angular Material or CDK components that can cause the issue from being mocked.
 
 ```TypeScript
+import { CommonModule } from '@angular/common';
+import { getTestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
+import { ngMocks } from 'ng-mocks';
+
+getTestBed().initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting(),
+  {
+    errorOnUnknownElements: true,
+    errorOnUnknownProperties: true,
+  }
+);
+
+ngMocks.globalKeep(CommonModule);
+ngMocks.globalKeep(MatIconModule);
+ngMocks.globalKeep(MatToolbarModule);
+ngMocks.globalKeep(MatCardModule);
+ngMocks.globalKeep(MatSnackBarModule);
+ngMocks.globalKeep(MatButtonModule);
 ```
 
 - Include the file in **tsconfig.spec.json**
