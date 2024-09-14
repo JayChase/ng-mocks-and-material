@@ -1,15 +1,10 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatButtonHarness } from '@angular/material/button/testing';
-import {
-  MatSnackBar,
-  MatSnackBarRef,
-  TextOnlySnackBar,
-} from '@angular/material/snack-bar';
 import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
 import { AppComponent } from './app.component';
+import { LikeService } from './like/like.service';
 
 describe('AppComponent', () => {
   let fixture: MockedComponentFixture<AppComponent>;
@@ -26,7 +21,10 @@ describe('AppComponent', () => {
           },
         });
       })
-      .keep(MatButtonModule);
+
+      .mock(LikeService, {
+        like: () => null,
+      });
   });
 
   beforeEach(async () => {
@@ -42,21 +40,21 @@ describe('AppComponent', () => {
 
   describe('Like button', () => {
     let likeHarness: MatButtonHarness;
-    let matSnackBar!: MatSnackBar;
-    const mockMatSnackBarRef = {} as MatSnackBarRef<TextOnlySnackBar>;
+    let likeService!: LikeService;
 
     beforeEach(async () => {
       likeHarness = await loader.getHarness(
-        MatButtonHarness.with({ selector: '.toolbar__share' })
+        MatButtonHarness.with({ selector: '.toolbar__like' })
       );
+      likeService = fixture.componentRef.injector.get(LikeService);
 
-      matSnackBar = fixture.componentRef.injector.get(MatSnackBar);
-      spyOn(matSnackBar, 'open').and.returnValue(mockMatSnackBarRef);
+      spyOn(likeService, 'like').and.returnValue();
     });
 
-    it('should show a snackbar', async () => {
+    it('should call like on the like service', async () => {
       await likeHarness.click();
-      expect(matSnackBar.open).toHaveBeenCalled();
+
+      expect(likeService.like).toHaveBeenCalled();
     });
   });
 });
