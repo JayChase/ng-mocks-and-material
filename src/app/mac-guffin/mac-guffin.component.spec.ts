@@ -4,8 +4,12 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonHarness } from '@angular/material/button/testing';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import {
   MatSnackBar,
+  MatSnackBarModule,
   MatSnackBarRef,
   TextOnlySnackBar,
 } from '@angular/material/snack-bar';
@@ -29,6 +33,10 @@ describe('MacGuffinComponent', () => {
       })
       .keep(CommonModule)
       .keep(NoopAnimationsModule)
+      .keep(MatSnackBarModule)
+      .keep(MatSelectModule)
+      .keep(MatFormFieldModule)
+      .keep(MatCardModule)
       .keep(MatButtonModule);
   });
 

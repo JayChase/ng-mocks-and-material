@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { LikeService } from './like/like.service';
 import { MacGuffinComponent } from './mac-guffin/mac-guffin.component';
 
 @Component({
@@ -14,19 +14,16 @@ import { MacGuffinComponent } from './mac-guffin/mac-guffin.component';
     MatButtonModule,
     MacGuffinComponent,
   ],
+  providers: [LikeService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'ng-mocks-and-material';
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private likeService: LikeService) {}
 
   like() {
-    this.snackBar.open('Liked', 'ok', { duration: 1000 });
-  }
-
-  share() {
-    this.snackBar.open('Shared', 'ok', { duration: 1000 });
+    this.likeService.like();
   }
 }

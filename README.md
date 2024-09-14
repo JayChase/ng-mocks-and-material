@@ -2,11 +2,11 @@
 
 How to get tests on standalone components working with ngMocks and Angular Material (although this is probably helpful for module based Angular apps as well).
 
-## the challenge
+## The challenge
 
 [ng-mocks](https://ng-mocks.sudo.eu/guides/component-standalone/) breaks Angular Material [test harnesses](https://material.angular.io/guide/using-component-harnesses) by removing required dependencies.
 
-If a individual material components are kept, in order to use a test harness an error similar to the one below will show:
+If individual material components are kept, in order to use a test harness an error similar to the one below will show:
 
 ```bash
 TypeError: Cannot read properties of undefined (reading 'subscribe')
@@ -30,13 +30,12 @@ To reproduce the issue checkout the branch [feature/the-problem](https://github.
 
 ## Solution
 
-In order to resolve this issue all Material components used in the component under test, and all material components used in child components have to be explicitly kept (excluded from the auto mocking and removal of dependencies by ng-mocks)
+In order to resolve this issue all Material components that can cause the issue (ones with dependencies on Material and CDK services such as layout and A11y) used in the component under test, and used in child components have to be explicitly kept (excluded from the auto mocking and removal of dependencies by ng-mocks)
 
 ### [Basic fix](https://github.com/JayChase/ng-mocks-and-material/tree/feature/basic-fix)
 
 ```TypeScript
- beforeEach(async () => {
-    // keep all of the Material modules used by the component AND any child components
+  beforeEach(async () => {
     return MockBuilder(AppComponent)
       .beforeCompileComponents((testBed) => {
         testBed.overrideComponent(AppComponent, {
@@ -48,17 +47,19 @@ In order to resolve this issue all Material components used in the component und
       })
       .keep(CommonModule)
       .keep(NoopAnimationsModule)
-      .keep(MatIconModule)
-      .keep(MatToolbarModule)
-      .keep(MatCardModule)
+      .keep(MatButtonModule)
       .keep(MatSnackBarModule)
-      .keep(MatButtonModule);
+      .mock(LikeService, {
+        like: () => null,
+      });
   });
 ```
 
+The tricky part here is that the **MatSnackBarModule** has to be kept as it used in the child component **MacGuffinComponent**.
+
 ### [Better fix](https://github.com/JayChase/ng-mocks-and-material/tree/feature/better-fix)
 
-- Add a [test.ts](./src/test.ts) config to always exclude the Angular Material components from being mocked.
+- Add a [test.ts](./src/test.ts) config to always exclude any Angular Material or CDK components that can cause the issue from being mocked.
 
 ```TypeScript
 ```
