@@ -39,9 +39,9 @@ describe('AppComponent', () => {
   });
 
   it('should render title', () => {
-    fixture.nativeElement
-      .querySelector('.app__title')
-      ?.textContent.toContain('Test Component');
+    expect(
+      fixture.nativeElement.querySelector('.app__title')?.textContent
+    ).toContain('Test Component');
   });
 
   describe('Like button', () => {
