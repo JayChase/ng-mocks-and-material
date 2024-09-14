@@ -26,11 +26,13 @@ TypeError: Cannot read properties of undefined (reading 'subscribe')
 
 See [here](https://github.com/angular/components/issues/25563) for more details on the issue.
 
+To reproduce the issue checkout the branch [feature/the-problem](https://github.com/JayChase/ng-mocks-and-material/tree/feature/the-problem).
+
 ## Solution
 
 In order to resolve this issue all Material components used in the component under test, and all material components used in child components have to be explicitly kept (excluded from the auto mocking and removal of dependencies by ng-mocks)
 
-### Basic fix
+### [Basic fix](https://github.com/JayChase/ng-mocks-and-material/tree/feature/basic-fix)
 
 ```TypeScript
  beforeEach(async () => {
@@ -54,7 +56,7 @@ In order to resolve this issue all Material components used in the component und
   });
 ```
 
-### Better fix
+### [Better fix](https://github.com/JayChase/ng-mocks-and-material/tree/feature/better-fix)
 
 - Add a [test.ts](./src/test.ts) config to always exclude the Angular Material components from being mocked.
 
@@ -80,7 +82,7 @@ In order to resolve this issue all Material components used in the component und
 }
 ```
 
-- Add the **test.ts** file to the test config in angule.json
+- Add the **test.ts** file to the test config in angular.json
 
 ```json
 "test": {
