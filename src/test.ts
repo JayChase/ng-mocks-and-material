@@ -9,7 +9,6 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ngMocks } from 'ng-mocks';
 
 getTestBed().initTestEnvironment(
@@ -22,7 +21,6 @@ getTestBed().initTestEnvironment(
 );
 
 ngMocks.globalKeep(CommonModule);
-ngMocks.globalKeep(NoopAnimationsModule);
 ngMocks.globalKeep(MatIconModule);
 ngMocks.globalKeep(MatToolbarModule);
 ngMocks.globalKeep(MatCardModule);
